@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 app.use('/components', express.static('dist/components'));
 app.use(bodyParser.json());
 

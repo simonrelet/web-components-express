@@ -10,7 +10,7 @@ const glob = require('glob');
 const es = require('event-stream');
 const babelify = require('babelify');
 const uglify = require('gulp-uglify');
-const jade = require('gulp-jade');
+const pug = require('gulp-pug');
 const sass = require('gulp-sass');
 const cleanCSS = require('gulp-clean-css');
 const rename = require('gulp-rename');
@@ -22,11 +22,11 @@ const paths = {
     components: 'dist/components',
     tmp: '.tmp/',
     tmpComponents: '.tmp/components',
-    view: '.tmp/components/**/index.jade'
+    view: '.tmp/components/**/index.pug'
   },
   components: {
     js: 'components/**/index.js',
-    view: 'components/**/index.jade',
+    view: 'components/**/index.pug',
     style: 'components/**/index.scss'
   }
 };
@@ -60,14 +60,14 @@ gulp.task('build:css', () => {
     .pipe(gulp.dest(paths.build.tmpComponents));
 });
 
-gulp.task('build:copy-jade', () => {
+gulp.task('build:copy-pug', () => {
   return gulp.src(paths.components.view)
     .pipe(gulp.dest(paths.build.tmpComponents));
 });
 
-gulp.task('build:html', ['build:js', 'build:css', 'build:copy-jade'], () => {
+gulp.task('build:html', ['build:js', 'build:css', 'build:copy-pug'], () => {
   return gulp.src(paths.build.view)
-    .pipe(jade())
+    .pipe(pug())
     .pipe(rename(filePath => {
       filePath.basename = path.basename(filePath.dirname);
       filePath.dirname = path.dirname(filePath.dirname);
@@ -87,5 +87,5 @@ gulp.task('watch', ['build'], done => {
 });
 
 sync(gulp, {
-  excluded: ['build:js', 'build:html', 'build:css', 'build:copy-jade']
+  excluded: ['build:js', 'build:html', 'build:css', 'build:copy-pug']
 });
